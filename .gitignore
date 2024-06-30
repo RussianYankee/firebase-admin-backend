@@ -4,3 +4,4 @@ firebase-service-acc.json
 logs
 *.log
 node_modules
+package-lock.json
