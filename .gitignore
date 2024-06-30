@@ -1,0 +1,6 @@
+firebase-service-acc.json
+.vscode
+.idea
+logs
+*.log
+node_modules
