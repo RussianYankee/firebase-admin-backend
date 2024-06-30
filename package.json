@@ -1,0 +1,19 @@
+{
+  "name": "firebase-admin-service",
+  "version": "1.0.0",
+  "description": "firebase admin backend service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anton Evlampeev",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.19.2",
+    "firebase-admin": "12.2.0",
+    "firebase": "10.12.2"
+  },
+  "devDependencies": {
+    "nodemon": "3.1.4"
+  }
+}
