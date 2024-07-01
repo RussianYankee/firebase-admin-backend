@@ -1,11 +1,13 @@
 import express from 'express'
 import admin, { ServiceAccount } from 'firebase-admin'
 import serviceAccount from '../firebase-service-acc.json'
+import cors from 'cors'
 
 const PORT = 3000
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
 process.env['FIREBASE_AUTH_EMULATOR_HOST'] =  '127.0.0.1:9099'
 

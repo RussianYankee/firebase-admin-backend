@@ -4,6 +4,7 @@
   "description": "firebase admin backend service",
   "main": "index.ts",
   "scripts": {
+    "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +13,7 @@
   "dependencies": {
     "express": "4.19.2",
     "firebase-admin": "12.2.0",
-    "firebase": "10.12.2"
+    "cors": "2.8.5"
   },
   "devDependencies": {
     "typescript": "5.5.2",
