@@ -15,17 +15,16 @@ const fbAdminApp = admin.initializeApp({
 
 //REST
 app.post('/signup', async (req, res) => {
-  console.log(`[SERVER]: Fetching user... ${req.body.email}`)
-  const user = await fbAdminApp.auth().getUserByEmail(req.body.email)
-  if (user) {
-    console.log(`[UID VALIDATION]: ${req.body.uid == user.uid}`)
-    await fbAdminApp.auth().setCustomUserClaims(user.uid, {
-      "owner": true
+  fbAdminApp.auth().verifyIdToken(req.body.token).then(async (token) => {
+    await fbAdminApp.auth().setCustomUserClaims(token.uid, {
+      "owner": true,
+      "authorities": [
+        "canReadThis",
+        "canWriteThat"
+      ]
     })
     res.send("SUCCESS")
-  } else {
-    res.send("ERROR: user not found")
-  }
+  }).catch((err) => res.send(err))
 })
 
 app.listen(PORT, () => console.log(`[SERVER]: started listening to port ${PORT}`))
