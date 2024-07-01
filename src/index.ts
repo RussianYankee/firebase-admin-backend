@@ -15,16 +15,20 @@ const fbAdminApp = admin.initializeApp({
 
 //REST
 app.post('/signup', async (req, res) => {
-  fbAdminApp.auth().verifyIdToken(req.body.token).then(async (token) => {
-    await fbAdminApp.auth().setCustomUserClaims(token.uid, {
-      "owner": true,
-      "authorities": [
-        "canReadThis",
-        "canWriteThat"
-      ]
-    })
-    res.send("SUCCESS")
-  }).catch((err) => res.send(err))
+  if (req.body.token) {
+      fbAdminApp.auth().verifyIdToken(req.body.token).then(async (token) => {
+      await fbAdminApp.auth().setCustomUserClaims(token.uid, {
+        "owner": true,
+        "authorities": [
+          "canReadThis",
+          "canWriteThat"
+        ]
+      })
+      res.send("SUCCESS")
+    }).catch((err) => res.send(err))
+  } else {
+    res.send("INCOMPLETE REQUEST DATA")
+  }
 })
 
 app.listen(PORT, () => console.log(`[SERVER]: started listening to port ${PORT}`))
