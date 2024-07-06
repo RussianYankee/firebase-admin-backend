@@ -8,6 +8,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
+app.use(express.urlencoded({extended: true}))
 
 process.env['FIREBASE_AUTH_EMULATOR_HOST'] =  '127.0.0.1:9099'
 
@@ -17,19 +18,26 @@ const fbAdminApp = admin.initializeApp({
 
 //REST
 app.post('/signup', async (req, res) => {
-  if (req.body.token) {
-      fbAdminApp.auth().verifyIdToken(req.body.token).then(async (token) => {
-      await fbAdminApp.auth().setCustomUserClaims(token.uid, {
-        "owner": true,
-        "authorities": [
-          "canReadThis",
-          "canWriteThat"
-        ]
-      })
-      res.send("SUCCESS")
-    }).catch((err) => res.send(err))
+  const {token, role, membership} = req.body
+  if (token && role && membership) {
+    console.log(`[INFO]: role=${role}; membership=${membership}`)
+      fbAdminApp.auth().verifyIdToken(req.body.token).then((decodedToken) => {
+        fbAdminApp.auth().setCustomUserClaims(decodedToken.uid, {
+          "owner": true,
+          "authorities": [
+            "canReadThis",
+            "canWriteThat"
+          ]
+        }).then(() => {
+          res.status(200).send({
+            message: "access granted"
+          })
+        })
+      }).catch((err) => res.status(400).send(err))
   } else {
-    res.send("INCOMPLETE REQUEST DATA")
+    res.status(400).send({
+      message: "incomplete request data."
+    })
   }
 })
 
